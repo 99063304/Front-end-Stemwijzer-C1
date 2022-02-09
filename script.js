@@ -1,22 +1,15 @@
-var slaoverknop = document.getElementById('slaoverknop');
-slaoverknop.value ='slaoverknop';
+var ids =  ['slaoverknop','eensknop','oneensknop','geenvanbeideknop'];
 
-var eensknop = document.getElementById('eensknop');
-eensknop.value = 'eensknop';
-
-var oneensknop = document.getElementById('oneensknop');
-oneensknop.value = 'oneensknop';
-
-var geenvanbeideknop = document.getElementById('geenvanbeideknop');
-geenvanbeideknop.value = 'geenvanbeideknop';
+for (var i = 0; i <ids.length; i++) {
+  var replace = document.getElementById(ids[i]);
+  replace.value = ids[i];
+  replace.onclick = stemwijzerstart;
+}
 
 
 
 
 
-
-
-
-function functionName() {
-  
+function stemwijzerstart() {
+  console.log(this.value);
 }
