@@ -3732,14 +3732,22 @@ var subjects = [{
 
 
 
-var ids =  ['slaoverknop','eensknop','oneensknop','geenvanbeideknop'];
-var eensCount = 0;
+var ids =  ['slaoverknop','eensknop','oneensknop','geenvanbeideknop','back'];
+var eensCount = -2;
 var oneensCount = 0;
 var stellingCount = 0;
-
+var pastChoice = 0;
+var patroon = [];
+var pasPastChoice = 0;
+var gvbknop = 0;
 var stellingTitel = document.getElementById('stellingTitel');
 var stelling = document.getElementById('stelling');
 var bar = document.getElementById('bar');
+var start = 'eensknop';
+
+
+
+
 var calc = 3+'.'+33+ '%';
 console.log(bar.style.width);
 
@@ -3748,29 +3756,75 @@ for (var i = 0; i <ids.length; i++) {
   var replace = document.getElementById(ids[i]);
   replace.value = ids[i];
   replace.onclick = stemwijzerstart;
+  if (replace.id == 'eensknop') {
+    replace.click();
+    replace.click();
+  }
 }
 
 
 
-function stemwijzerstart() {
-   calc = calc +' + '+ 3+'.'+33+'%';
-  var val = this.value
-  if (val == 'slaoverknop') {
+function stemwijzerstart(startv) {
+  var sum = '+';
+  var val = this.value;
 
+  if (val == 'slaoverknop') {
+    // patroon.push("slaoverknop");
   }
-  if (val == 'eensknop') {
+  if (val == 'eensknop' || startv == 'eensknop') {
     eensCount++;
+    patroon.push("eensknop");
   }
   if (val == 'oneensknop') {
     oneensCount++;
+    patroon.push("oneensknop");
   }
   if (val == 'geenvanbeideknop') {
-
+    gvbknop++;
+    patroon.push("geenvanbeideknop");
   }
+  if (val == 'back') {
+      this.style.backgroundColor =  null;
+      document.getElementById(pastChoice).style.backgroundColor =  'red';
+      if (stellingCount >= 0) {
+        stellingCount -= 2;
+        sum = '-';
+      }
+      if (patroon[patroon.length-1] == 'eensknop') {
+        eensCount--;
+      }
+        else if (patroon[patroon.length-1] == 'oneensknop') {
+          oneensCount--;
+      } else if (patroon[patroon.length-1] == 'geenvanbeideknop') {
+          gvbknop--;
+      }
+        patroon.pop();
+
+  }else{
+
+    pasPastChoice = pastChoice;
+    pastChoice = this.id;
+    document.getElementById(pasPastChoice).style.backgroundColor =  null;
+  }
+
+   calc = calc +' '+sum +' '+ 3+'.'+33+'%';
+
   stellingTitel.innerHTML = stellingCount+1 +'. ' + subjects[stellingCount]['title'] ;
   stelling.innerHTML = subjects[stellingCount]['statement'];
 
+
+
+
   bar.style.width = 'calc('+ calc+  ')';
-  console.log(calc);
-stellingCount++;
+  console.log(eensCount);
+  console.log(oneensCount);
+  console.log(patroon.length)
+  stellingCount++;
+
+  if (this.value != 'back') {
+    this.style.backgroundColor =  '#0d6efd';
+  }
+}
+function getResults() {
+  
 }
