@@ -1,0 +1,11 @@
+p{
+  font-size: 37px;
+}
+#bar{
+    background-color: #0D6EFD;
+    height: 10px;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    position: absolute;
+}
