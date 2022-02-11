@@ -3739,6 +3739,8 @@ var stellingCount = 0;
 var pastChoice = 0;
 var patroon = [];
 var pasPastChoice = 0;
+var resultCount = [[]];
+var subjectsInnersubject = ['name','opinion','position'];
 var gvbknop = 0;
 var stellingTitel = document.getElementById('stellingTitel');
 var stelling = document.getElementById('stelling');
@@ -3773,15 +3775,15 @@ function stemwijzerstart(startv) {
   }
   if (val == 'eensknop' || startv == 'eensknop') {
     eensCount++;
-    patroon.push("eensknop");
+    patroon.push("pro");
   }
   if (val == 'oneensknop') {
     oneensCount++;
-    patroon.push("oneensknop");
+    patroon.push("contra");
   }
   if (val == 'geenvanbeideknop') {
     gvbknop++;
-    patroon.push("geenvanbeideknop");
+    patroon.push("none");
   }
   if (val == 'back') {
       this.style.backgroundColor =  null;
@@ -3807,24 +3809,46 @@ function stemwijzerstart(startv) {
     document.getElementById(pasPastChoice).style.backgroundColor =  null;
   }
 
-   calc = calc +' '+sum +' '+ 3+'.'+33+'%';
+  calc = calc +' '+sum +' '+ 3+'.'+33+'%';
 
   stellingTitel.innerHTML = stellingCount+1 +'. ' + subjects[stellingCount]['title'] ;
   stelling.innerHTML = subjects[stellingCount]['statement'];
 
-
-
-
   bar.style.width = 'calc('+ calc+  ')';
-  console.log(eensCount);
-  console.log(oneensCount);
-  console.log(patroon.length)
+  // if (stellingCount >= 30) {
+  //   getResults();
+  // };
   stellingCount++;
 
   if (this.value != 'back') {
     this.style.backgroundColor =  '#0d6efd';
   }
 }
+ // getResults();
 function getResults() {
-  
+  patroon.shift();
+  patroon.shift();
+
+  for (var o = 0; o <1; o++) {
+    // vraag 1
+    for (var a = 0; a <subjects[o]['parties'].length; a++) {
+
+      var limiArray = [];
+      for (var e = 0; e <subjectsInnersubject.length; e++) {
+
+        if (e == 2) {
+
+          if (subjects[o]['parties'][a][subjectsInnersubject[e]] == patroon[o]) {
+             console.log(subjects[o]['parties'][a][subjectsInnersubject[e]]);
+
+            // console.log(subjects[o]['parties'][a][subjectsInnersubject[e]]);
+
+          }
+        }
+        limiArray.push(subjects[o]['parties'][a][subjectsInnersubject[e]]);
+      }
+      resultCount.push(limiArray);
+    }
+  }
+          console.log(resultCount);
 }
