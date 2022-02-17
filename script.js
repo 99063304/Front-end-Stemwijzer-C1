@@ -183,7 +183,6 @@ function stemwijzerstart(startv) {
   var val = this.value;
 
   if (val == 'slaoverknop') {
-    // patroon.push("slaoverknop");
   }
   if (val == 'eensknop' || startv == 'eensknop') {
     eensCount++;
@@ -197,9 +196,6 @@ function stemwijzerstart(startv) {
     gvbknop++;
     patroon.push("none");
   }
-  // if (stellingCount >subjects.length-1) {
-  //   getResults();
-  // };
   if (val == 'back') {
       this.style.backgroundColor =  null;
       document.getElementById(pastChoice).style.backgroundColor =  'red';
@@ -216,9 +212,7 @@ function stemwijzerstart(startv) {
           gvbknop--;
       }
         patroon.pop();
-
   }else{
-
     pasPastChoice = pastChoice;
     pastChoice = this.id;
     document.getElementById(pasPastChoice).style.backgroundColor =  null;
@@ -236,42 +230,27 @@ function stemwijzerstart(startv) {
     }
   } else {
     var overzicht = document.getElementById('overzicht');
-
       for (var i = 0; i <= diediv.children.length +6; i++) {
         diediv.removeChild(diediv.lastChild);
       }
      gewichtVraag();
-
-
   }
 }
- // getResults();
 function getResults() {
   patroon.shift();
   patroon.shift();
   console.log('jj');
 
   for (var o = 0; o <subjects.length; o++) {
-    // vraag 1
     for (var a = 0; a <subjects[o]['parties'].length; a++) {
-
       var limiArray = [];
       for (var e = 0; e <subjectsInnersubject.length; e++) {
-
         if (e == 2) {
-          // console.log(subjects[o]['parties'][a][subjectsInnersubject[e]]);
-          // console.log(patroon[o]);
-
-
           if (subjects[o]['parties'][a][subjectsInnersubject[e]] == patroon[o]) {
-             // console.log(subjects[o]['parties'][a][subjectsInnersubject[e]]);
              partyPointers[subjects[o]['parties'][a][subjectsInnersubject[0]]]++;
              if (extragewicht[o] == 'x') {
-               console.log('hhhhhhh');
                partyPointers[subjects[o]['parties'][a][subjectsInnersubject[0]]]++;
              }
-             console.log(extragewicht[o]);
-
           }
         }
         limiArray.push(subjects[o]['parties'][a][subjectsInnersubject[e]]);
@@ -285,52 +264,13 @@ function getResults() {
      partyPointersSort[g] = partyPointers[subjects[0]['parties'][g][subjectsInnersubject[0]]];
 
    }
-
-
-    for(key in partyPointers){
+   for(key in partyPointers){
       new_array.push([key, partyPointers[key]])
     }
     new_array.sort(function(item1, item2){
       return item2[1]-item1[1];
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     partyPointersSort.sort();
-
-    // for (var h = 0; h < parties.length -1; h++) {
-    //   for (var f = 0; f <parties.length -1; f++) {
-    //     if (partyPointersSort[h] === partyPointers[parties[f]['name']]) {
-    //         // console.log(partyPointersSort[h] + '__' + partyPointers[parties[f]['name']] );
-    //
-    //         // newPartypointers[f] = h + ":" +partyPointersSort[h];
-    //         newPartypointers.push({partyPointers[parties[f]['name'] : partyPointersSort[h]});
-    //         // partyPointers[f]w
-    //         // console.log( partyPointers[f]['name']+ '____' + newPartypointers[f] );
-    //         // parties[f]['name'];
-    //
-    //         //
-    //         // var limi = [partyPointersSort[h]];
-    //         //     newPartypointers[f] = limi;
-    //
-    //     }
-    //   }
-    // }
-
-
-
-
   }
 
 function gewichtVraag() {
