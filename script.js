@@ -1,8 +1,176 @@
+//Je kan niet meer terug naar het startscherm
+//Gebruik een object in een array
+//Gebruik wat meer DRY
+//gebruik header en footer
+//gebruik addEventListener
+//gebruik anonieme functie
+
+
+//Nadat je langs alle stellingen ben gegaan, kan je niet meer terug
+//balk gaat niet snel genoeg omhoog
+//Zou wel fijn zijn als de vraag om alleen grote of seculiere partijen te tonen apart staat van de vraag welke onderwerpen extra belangrijk zijn
+//Zet wat meer comments, bijvoorbeeld bij de functie showresults, wat uitlegt wat die functie doet
+
+
+//Bij de eerste knop wordt de knop waarop je laatst klikte niet blauw, alleen de eens knop
+//De knop waarop je klikte wordt alleen blauw als je terug gaat
+
+//sommige partijen worden niet getoond
+
+
+
+var parties = [
+ {
+    name: "PVV",
+    secular: true,
+    size: 20,
+    long: "Partij voor de Vrijheid"
+  },
+  {
+    name: "D66",
+    secular: true,
+    size: 19,
+    long: "Democratie 66"
+  },
+  {
+    name: "CU",
+    secular: false,
+    size: 6,
+    long: 'Christen Unie'
+  },
+  {
+    name: "SP",
+    secular: true,
+    size: 14,
+    long: "Socialistische Partij"
+  }
+];
+
+// Testen op correcte match, voer in:
+// PVV: contra, pro, contra, pro
+// SP: pro, contra, contra, contra
+// D66: pro, contra, pro, contra
+// CU: pro, pro, pro, contra
+
+var subjects = [{
+    "title": "Bindend referendum",
+    "statement": "Er moet een bindend referendum komen, waarmee burgers door het parlement aangenomen wetten kunnen tegenhouden.",
+    "parties": [
+      {
+        "name": "PVV",
+        "position": "contra",
+        "opinion": "Geen toelichting gegeven"
+      },
+      {
+        "name": "SP",
+        "position": "pro",
+        "opinion": "Directe inspraak en zeggenschap van mensen maakt onze democratie sterker en de besluiten beter. In plaats van een raadgevend referendum willen we zo snel mogelijk een correctief referendum, zodat de bevolking ook tussen de verkiezingen door de gekozen vertegenwoordigers kan corrigeren, zowel bij lokale, nationale als Europese onderwerpen."
+      },
+      {
+        "name": "D66",
+        "position": "pro",
+        "opinion": "D66 wil de democratische controle moderniseren. Daarom wil D66 kiezers een noodrem geven met de mogelijkheid om via een correctief bindend referendum wetsvoorstellen tegen te houden, nadat het parlement deze heeft aangenomen. Dit correctief bindend referendum omvat geen internationale verdragen."
+      },
+      {
+        "name": "CU",
+        "position": "pro",
+        "opinion": "Wij willen experimenteren met nieuwe vormen van directe democratie. Wij werken daarom aan alternatieve modellen om burgers te betrekken en hechten vooral aan het uitwisselen van argumenten en samen zoeken naar oplossingen. Tot dan steunen wij het referendum om burgers meer invloed te geven."
+      }
+    ]
+  },
+  {
+    "title": "Maatschappelijke dienstplicht",
+    "statement": "Er moet een maatschappelijke dienstplicht voor jongeren komen. Zij kunnen dan dienen in het leger, bij de politie of in de zorg.",
+    "parties": [
+      {
+        "name": "PVV",
+        "position": "pro",
+        "opinion": "Geen toelichting gegeven"
+      },
+      {
+        "name": "SP",
+        "position": "contra",
+        "opinion": "De SP is voorstander van een maatschappelijke stage voor jongeren binnen het onderwijs om kennis te maken met de maatschappij, bijvoorbeeld in zorg of onderwijs. Een maatschappelijke dienstplicht voor langere tijd buiten het onderwijs gaat echter veel te ver, zal veel kosten en weinig opleveren. Belangrijke maatschappelijke taken moeten worden verricht door mensen die daar gemotiveerd en goed opgeleid voor zijn,"
+      },
+      {
+        "name": "D66",
+        "position": "contra",
+        "opinion": "Natuurlijk is het mooi als jongeren zich willen inzetten voor de maatschappij, maar dat is het juist als zij er zÃ©lf voor kiezen. Daarom wil D66 dit niet verplicht stellen. Scholen kunnen kiezen voor het aanbieden van een maatschappelijke stage, maar dat moet niet door de overheid worden opgelegd."
+      },
+      {
+        "name": "CU",
+        "position": "pro",
+        "opinion": "Mensen nemen op allerlei manieren deel aan de samenleving: door te werken, te leren, vrijwilligerswerk te doen, buren of familie te helpen. Een maatschappelijke dienstplicht doet geen recht aan de verschillende manieren waarop mensen participeren en beperkt de individuele vrijheid te veel."
+      }
+    ]
+  },
+  {
+    "title": "Anoniem solliciteren",
+    "statement": "Om discriminatie op basis van de naam te voorkomen, moet anoniem solliciteren bij de overheid en bij openbare instellingen de regel worden.",
+    "parties": [
+      {
+        "name": "D66",
+        "position": "pro",
+        "opinion": "Nederlanders met een niet-westerse achtergrond zijn drie keer vaker werkloos dan Nederlanders met een westerse achtergrond. D66 wil dit verschil terugdringen. EÃ©n van de maatregelen die D66 wil nemen is het opzetten van experimenten met neutrale sollicitatie- en promotieprocedures."
+      },
+      {
+        "name": "CU",
+        "position": "pro",
+        "opinion": "Waar het gaat om vacatures van de overheid wordt anoniem solliciteren de norm. GroenLinks wil dat de overheid een goede afspiegeling vormt van de samenleving, zeker bij publieke topfuncties. "
+      },
+      {
+        "name": "PVV",
+        "position": "contra",
+        "opinion": "Geen toelichting gegeven"
+      },
+      {
+        "name": "SP",
+        "position": "contra",
+        "opinion": "Discriminatie  moet fel bestreden worden in alle delen van de maatschappij. Experimenten met anoniem solliciteren uitbreiden is daarom een goed idee. Dit algeheel doorvoeren gaat nu echter een stap te ver. Bovendien zit anoniem solliciteren ook een actief diversiteitsbeleid juist in de weg."
+      }
+    ]
+  },
+  {
+    "title": "Groepsbelediging",
+    "statement": "Belediging van groepen op grond van ras, godsdienst of geaardheid moet niet langer strafbaar zijn.",
+    "parties": [
+      {
+        "name": "PVV",
+        "position": "pro",
+        "opinion": "Geen toelichting gegeven"
+      },
+      {
+        "name": "SP",
+        "position": "contra",
+        "opinion": "De strafbaarheid op belediging van groepen blijkt in de praktijk een nuttig middel om bijvoorbeeld antisemitisme of religieuze haatoproepen tegen homoseksuelen tegen te gaan."
+      },
+      {
+        "name": "D66",
+        "position": "contra",
+        "opinion": "D66 is voor vrije meningsuiting maar vindt dat het opzettelijk beledigen, discrimineren en haat zaaien tegen mensen vanwege het behoren tot een bepaalde bevolkingsgroep, niet past in onze samenleving."
+      },
+      {
+        "name": "CU",
+        "position": "contra",
+        "opinion": "Onze samenleving is de afgelopen vijftien jaar verruwd. Respectloos gedrag lijkt normaal te zijn geworden. GroenLinks stelt een harde grens: we pakken racisme en discriminatie keihard aan, zeker als het gekoppeld wordt aan geweld of het oproepen tot geweld, intimidatie en bedreigingen."
+      }
+    ]
+  }
+];
+
+
+
 
 // variables worden aangemaakt
 var dividervalGp = 0;
 var dividervalSp = 0;
 var ids = ['slaoverknop', 'eensknop', 'oneensknop', 'geenvanbeideknop', 'back'];
+var idsv = [
+						{'id':'slaoverknop','count':0,'patroon':'-'},
+						{'id':'eensknop','count':-2,'patroon':'pro'},
+						{'id':'oneensknop','count':0,'patroon':'contra'},
+						{'id':'geenvanbeideknop','count':0,'patroon':'none'}
+					];
 var eensCount = -2;
 var oneensCount = 0;
 var stellingCount = 0;
@@ -18,6 +186,8 @@ var resultCount = [[]];
 var partyPointers = [];
 var extragewicht = [];
 var new_array = [];
+var pastId = '';
+var newPatroon = '';
 var subjectsInnersubject = ['name', 'opinion', 'position'];
 var gvbknop = 0;
 var stellingTitel = document.getElementById('stellingTitel');
@@ -30,12 +200,17 @@ var number = 100 / subjects.length-1;
 
 var calc = '-' + number + '%';
 
+for (var pe = 0; pe <subjects.length; pe++) {
+	patroon.push('');
+}
+
 // Er wordt een event op de buttons gezet
 // BUG: en er wordt 2x extra geklikt om bug te voorkomen
 for (var i = 0; i < ids.length; i++) {
 	var replace = document.getElementById(ids[i]);
 	replace.value = ids[i];
-	replace.onclick = stemwijzerstart;
+	replace.addEventListener("click", stemwijzerstart);
+
 	if (replace.id == 'eensknop') {
 		replace.click();
 		replace.click();
@@ -44,30 +219,26 @@ for (var i = 0; i < ids.length; i++) {
   // De punten telling van de parties worden aangemaakt
 for (var t = 0; t < parties.length; t++) {
 	partyPointers[parties[t]['name']] = 0;
+  console.log(partyPointers);
 }
   // Hier staat de event die op de buttons geplaatst zijn
 function stemwijzerstart() {
+	console.log(patroon);
 	var sum = '+';
 	var val = this.value;
+	var oldPatern = patroon[stellingCount+1];
 
   // Dit zorgt ervoor dat de punten omhoog gaan wanneer je erop klikt
   // En de gebruiker stem wordt ook opgeslagen
 
-	if (val == 'slaoverknop') {
-		patroon.push("-");
-		slaVraagOver++;
-	}
-	if (val == 'eensknop') {
-		eensCount++;
-		patroon.push("pro");
-	}
-	if (val == 'oneensknop') {
-		oneensCount++;
-		patroon.push("contra");
-	}
-	if (val == 'geenvanbeideknop') {
-		gvbknop++;
-		patroon.push("none");
+
+console.log(oldPatern);
+
+	for (var ie = 0; ie < idsv.length; ie++) {
+		if (val == idsv[ie]['id']) {
+			patroon[stellingCount] = idsv[ie]['patroon'];
+			idsv[ie]['count']++;
+		}
 	}
 
   // Dit zorgt eroor dat als je terug klikt de punten en de sten worden verwijdert zodat de telling goed blijft
@@ -82,28 +253,33 @@ function stemwijzerstart() {
 			stellingCount -= 2;
 			sum = '-';
 		}
-		if (patroon[patroon.length - 2] == 'pro') {
-			document.getElementById('eensknop').style.backgroundColor = 'blue';
-			eensCount--;
-		} else if (patroon[patroon.length - 2] == 'contra') {
-			document.getElementById('oneensknop').style.backgroundColor = 'blue';
-			oneensCount--;
-		} else if (patroon[patroon.length - 2] == 'none') {
-			document.getElementById('geenvanbeideknop').style.backgroundColor = 'blue';
 
-			gvbknop--;
-		} else if (patroon[patroon.length - 2] == '-') {
-			document.getElementById('slaoverknop').style.backgroundColor = 'blue';
-			slaVraagOver--;
+
+		for (var ie = 0; ie < idsv.length; ie++) {
+			if (patroon[stellingCount+1] == idsv[ie]['patroon']) {
+				document.getElementById(idsv[ie]['id']).style.backgroundColor = 'gray';
+				idsv[ie]['count']--;
+			}
 		}
-		patroon.pop();
+
+		document.getElementById(pastId).style.backgroundColor = '#0d6efd';
 	} else {
+
 		for (var ves = 0; ves < ids.length; ves++) {
 			document.getElementById(ids[ves]).style.backgroundColor = null;
 		}
 		pasPastChoice = pastChoice;
 		pastChoice = this.id;
 		document.getElementById(pasPastChoice).style.backgroundColor = null;
+
+		for (var gie = 0; gie < idsv.length; gie++) {
+			if (newPatroon[stellingCount+1] == idsv[gie]['patroon']) {
+				document.getElementById(idsv[gie]['id']).style.backgroundColor = 'gray';
+			}
+		}
+
+			console.log(patroon);
+
 	}
     // Berekent de blauwe lijn boven de pagina
 	calc = calc + ' ' + sum + ' ' + number + '%';
@@ -117,6 +293,7 @@ function stemwijzerstart() {
 		stellingCount++;
 		if (this.value != 'back') {
 			this.style.backgroundColor = '#0d6efd';
+			pastId = this.id;
 		}
 		if (stellingCount == 1) {
 			back.style.display = 'none';
@@ -133,22 +310,17 @@ function stemwijzerstart() {
 		}
 		gewichtVraag();
 	}
-}
-
-function makeOneUseArray() {
-  // hierin wordt de nieuwe array verwisselt
-	for (var re = 0; re < parties.length; re++) {
-		oneUseArray[parties[re]['name']] = partyPointers[parties[re]['name']];
+	for (var ie = 0; ie < idsv.length; ie++) {
+		if (oldPatern == idsv[ie]['patroon']) {
+			document.getElementById(idsv[ie]['id']).style.backgroundColor = 'gray';
+		}
 	}
-	oneUseArray['Niet Stemmers'] = gvbknop;
-
-	partyPointers = oneUseArray;
 }
 
 function getResults() {
   // BUG: dit is om de 2extra clicks weg te halen die veroorzaakt zijn door een bug op te lossen
 	patroon.shift();
-	patroon.shift();
+	// patroon.shift();
   // BUG:
 
   // er wordt gekeken of de de gebruiker seculiere of grote partijen wilt laten zien
@@ -158,6 +330,7 @@ function getResults() {
 			if (checks.id == '0partij') {
 				dividervalGp = true;
 			} else {
+				//Zet een l achter de a
 				dividervaSp = true;
 			}
 		}
@@ -165,20 +338,9 @@ function getResults() {
   // Hier worden array gefilterd gebaseerd op de keuze van de gebruiker dat houd in dat als de gebruiker
   // alleen grote partijen wilt zien of seculiere of beide
   // dan Worden partijen die dat niet zijn eruitgehaald
-	if (dividervalGp == true) {
-		parties = parties.filter(checkAdult);
-    // verwisselt array
-		makeOneUseArray();
-	}
-	if (dividervalSp == true) {
-		parties = parties.filter(checkAdult2);
-    // verwisselt array
-		makeOneUseArray();
-	}
 
   // hier wordt per keuze van gebruiker gekeken welke het best bij hem past
   // en alle scorres worden uitgerekent van alle partijen
-
 	for (var o = 0; o < subjects.length; o++) {
 		for (var a = 0; a < subjects[o]['parties'].length; a++) {
 			var limiArray = [];
@@ -197,8 +359,20 @@ function getResults() {
 		}
 	}
 
+  if (dividervalGp == true) {
+    parties = parties.filter(checkAdult);
+    // verwisselt array
+    partyPointers['Niet Stemmers'] = idsv[3]['count'];
+
+  }else if (dividervalSp == true) {
+    parties = parties.filter(checkAdult2);
+    // verwisselt array
+    partyPointers['Niet Stemmers'] = idsv[3]['count'];
+
+  }
+
   // hier worden de partij scorres gestorteerd van hoog naar laag
-	for (var g = 0; g < parties.length - 1; g++) {
+	for (var g = 0; g < parties.length; g++) {
 		partyPointersSort[g] = partyPointers[subjects[0]['parties'][g][subjectsInnersubject[0]]];
 	}
 	for (key in partyPointers) {
@@ -208,6 +382,7 @@ function getResults() {
 		return item2[1] - item1[1];
 	});
 	partyPointersSort.sort();
+  console.log(partyPointers);
 }
 
 function gewichtVraag() {
@@ -253,6 +428,7 @@ function gewichtVraag() {
 		input2.setAttribute('type', 'checkbox');
 		label2.innerHTML = textPartijen[p];
 		input2.id = p + 'partij';
+		input2.checked = true;
 		overzicht.appendChild(input2);
 		overzicht.appendChild(label2);
 		overzicht.appendChild(br2);
@@ -277,29 +453,23 @@ function gewichtVraag() {
 function Showresult() {
 	var overzicht = document.getElementById('overzicht');
   // Alle elementen worden verwijdert om ruimte te maken voor de resultaat
-	// for (var v = 0; v <= overzicht.children.length + 15; v++) {
-	// 	overzicht.removeChild(overzicht.lastChild);
-	// }
 	while (overzicht.firstChild) {
   overzicht.removeChild(overzicht.lastChild);
 }
+
   //// /// /
 
 	var element = document.createElement('h1');
 	element.innerText = 'Overzicht';
 	overzicht.appendChild(element);
-
+  console.log(new_array);
  // de resultaten worden opgehaald en laat ze aan de gebruiker zien in de vlgorde van de partij zijn stemmen
  // en welke het best bij de gebruiker past naar minder
 	for (var i = 0; i < new_array.length; i++) {
-		if (new_array[i][1] != 0) {
+    console.log(i);
 			var elemt = document.createElement('p');
+
 			if (new_array[i][0] != 'Niet Stemmers') {
-				// var allText = i + 1 + '. ' + subjects[0]['parties'][i]['position'];
-				// for (var bb = 0; bb < subjects.length; bb++) {
-				// 	allText =  allText + ',' + subjects[bb]['parties'][i]['position'];
-				// }
-				// allText = allText+ ': ' + new_array[i][0];
 				elemt.innerHTML = i+iCount+' '+new_array[i][0];
 			} else {
 				var iDoublecount = i+1
@@ -307,7 +477,6 @@ function Showresult() {
 				iCount++;
 			}
 			overzicht.appendChild(elemt);
-		}
 	}
 
   // als de gebruiker geen stmmen heeft ingevuld dan krijgt die dit als resultaat
