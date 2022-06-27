@@ -1,8 +1,15 @@
 
+
 // variables worden aangemaakt
 var dividervalGp = 0;
 var dividervalSp = 0;
 var ids = ['slaoverknop', 'eensknop', 'oneensknop', 'geenvanbeideknop', 'back'];
+var idsv = [
+						{'id':'slaoverknop','count':0,'patroon':'-'},
+						{'id':'eensknop','count':-2,'patroon':'pro'},
+						{'id':'oneensknop','count':0,'patroon':'contra'},
+						{'id':'geenvanbeideknop','count':0,'patroon':'none'}
+					];
 var eensCount = -2;
 var oneensCount = 0;
 var stellingCount = 0;
@@ -18,24 +25,31 @@ var resultCount = [[]];
 var partyPointers = [];
 var extragewicht = [];
 var new_array = [];
+var pastId = '';
+var newPatroon = '';
 var subjectsInnersubject = ['name', 'opinion', 'position'];
 var gvbknop = 0;
 var stellingTitel = document.getElementById('stellingTitel');
 var stelling = document.getElementById('stelling');
 var bar = document.getElementById('bar');
 var start = 'eensknop';
-const VOTE_DIVIDER = 10;
+const VOTE_DIVIDER = 30;
 var slaVraagOver = 0;
 var number = 100 / subjects.length-1;
 
 var calc = '-' + number + '%';
+
+for (var pe = 0; pe <subjects.length; pe++) {
+	patroon.push('');
+}
 
 // Er wordt een event op de buttons gezet
 // BUG: en er wordt 2x extra geklikt om bug te voorkomen
 for (var i = 0; i < ids.length; i++) {
 	var replace = document.getElementById(ids[i]);
 	replace.value = ids[i];
-	replace.onclick = stemwijzerstart;
+	replace.addEventListener("click", stemwijzerstart);
+
 	if (replace.id == 'eensknop') {
 		replace.click();
 		replace.click();
@@ -44,30 +58,26 @@ for (var i = 0; i < ids.length; i++) {
   // De punten telling van de parties worden aangemaakt
 for (var t = 0; t < parties.length; t++) {
 	partyPointers[parties[t]['name']] = 0;
+  console.log(partyPointers);
 }
   // Hier staat de event die op de buttons geplaatst zijn
 function stemwijzerstart() {
+	console.log(patroon);
 	var sum = '+';
 	var val = this.value;
+	var oldPatern = patroon[stellingCount+1];
 
   // Dit zorgt ervoor dat de punten omhoog gaan wanneer je erop klikt
   // En de gebruiker stem wordt ook opgeslagen
 
-	if (val == 'slaoverknop') {
-		patroon.push("-");
-		slaVraagOver++;
-	}
-	if (val == 'eensknop') {
-		eensCount++;
-		patroon.push("pro");
-	}
-	if (val == 'oneensknop') {
-		oneensCount++;
-		patroon.push("contra");
-	}
-	if (val == 'geenvanbeideknop') {
-		gvbknop++;
-		patroon.push("none");
+
+console.log(oldPatern);
+
+	for (var ie = 0; ie < idsv.length; ie++) {
+		if (val == idsv[ie]['id']) {
+			patroon[stellingCount] = idsv[ie]['patroon'];
+			idsv[ie]['count']++;
+		}
 	}
 
   // Dit zorgt eroor dat als je terug klikt de punten en de sten worden verwijdert zodat de telling goed blijft
@@ -82,28 +92,33 @@ function stemwijzerstart() {
 			stellingCount -= 2;
 			sum = '-';
 		}
-		if (patroon[patroon.length - 2] == 'pro') {
-			document.getElementById('eensknop').style.backgroundColor = 'blue';
-			eensCount--;
-		} else if (patroon[patroon.length - 2] == 'contra') {
-			document.getElementById('oneensknop').style.backgroundColor = 'blue';
-			oneensCount--;
-		} else if (patroon[patroon.length - 2] == 'none') {
-			document.getElementById('geenvanbeideknop').style.backgroundColor = 'blue';
 
-			gvbknop--;
-		} else if (patroon[patroon.length - 2] == '-') {
-			document.getElementById('slaoverknop').style.backgroundColor = 'blue';
-			slaVraagOver--;
+
+		for (var ie = 0; ie < idsv.length; ie++) {
+			if (patroon[stellingCount+1] == idsv[ie]['patroon']) {
+				document.getElementById(idsv[ie]['id']).style.backgroundColor = 'gray';
+				idsv[ie]['count']--;
+			}
 		}
-		patroon.pop();
+
+		document.getElementById(pastId).style.backgroundColor = '#0d6efd';
 	} else {
+
 		for (var ves = 0; ves < ids.length; ves++) {
 			document.getElementById(ids[ves]).style.backgroundColor = null;
 		}
 		pasPastChoice = pastChoice;
 		pastChoice = this.id;
 		document.getElementById(pasPastChoice).style.backgroundColor = null;
+
+		for (var gie = 0; gie < idsv.length; gie++) {
+			if (newPatroon[stellingCount+1] == idsv[gie]['patroon']) {
+				document.getElementById(idsv[gie]['id']).style.backgroundColor = 'gray';
+			}
+		}
+
+			console.log(patroon);
+
 	}
     // Berekent de blauwe lijn boven de pagina
 	calc = calc + ' ' + sum + ' ' + number + '%';
@@ -117,6 +132,7 @@ function stemwijzerstart() {
 		stellingCount++;
 		if (this.value != 'back') {
 			this.style.backgroundColor = '#0d6efd';
+			pastId = this.id;
 		}
 		if (stellingCount == 1) {
 			back.style.display = 'none';
@@ -133,22 +149,17 @@ function stemwijzerstart() {
 		}
 		gewichtVraag();
 	}
-}
-
-function makeOneUseArray() {
-  // hierin wordt de nieuwe array verwisselt
-	for (var re = 0; re < parties.length; re++) {
-		oneUseArray[parties[re]['name']] = partyPointers[parties[re]['name']];
+	for (var ie = 0; ie < idsv.length; ie++) {
+		if (oldPatern == idsv[ie]['patroon']) {
+			document.getElementById(idsv[ie]['id']).style.backgroundColor = 'gray';
+		}
 	}
-	oneUseArray['Niet Stemmers'] = gvbknop;
-
-	partyPointers = oneUseArray;
 }
 
 function getResults() {
   // BUG: dit is om de 2extra clicks weg te halen die veroorzaakt zijn door een bug op te lossen
 	patroon.shift();
-	patroon.shift();
+	// patroon.shift();
   // BUG:
 
   // er wordt gekeken of de de gebruiker seculiere of grote partijen wilt laten zien
@@ -158,6 +169,7 @@ function getResults() {
 			if (checks.id == '0partij') {
 				dividervalGp = true;
 			} else {
+				//Zet een l achter de a
 				dividervaSp = true;
 			}
 		}
@@ -165,20 +177,9 @@ function getResults() {
   // Hier worden array gefilterd gebaseerd op de keuze van de gebruiker dat houd in dat als de gebruiker
   // alleen grote partijen wilt zien of seculiere of beide
   // dan Worden partijen die dat niet zijn eruitgehaald
-	if (dividervalGp == true) {
-		parties = parties.filter(checkAdult);
-    // verwisselt array
-		makeOneUseArray();
-	}
-	if (dividervalSp == true) {
-		parties = parties.filter(checkAdult2);
-    // verwisselt array
-		makeOneUseArray();
-	}
 
   // hier wordt per keuze van gebruiker gekeken welke het best bij hem past
   // en alle scorres worden uitgerekent van alle partijen
-
 	for (var o = 0; o < subjects.length; o++) {
 		for (var a = 0; a < subjects[o]['parties'].length; a++) {
 			var limiArray = [];
@@ -197,8 +198,22 @@ function getResults() {
 		}
 	}
 
+  if (dividervalGp == true) {
+    parties = parties.filter(checkAdult);
+	
+	console.log(parties);
+    // verwisselt array
+    partyPointers['Niet Stemmers'] = idsv[3]['count'];
+
+  }else if (dividervalSp == true) {
+    parties = parties.filter(checkAdult2);
+    // verwisselt array
+    partyPointers['Niet Stemmers'] = idsv[3]['count'];
+
+  }
+   
   // hier worden de partij scorres gestorteerd van hoog naar laag
-	for (var g = 0; g < parties.length - 1; g++) {
+	for (var g = 0; g < parties.length; g++) {
 		partyPointersSort[g] = partyPointers[subjects[0]['parties'][g][subjectsInnersubject[0]]];
 	}
 	for (key in partyPointers) {
@@ -207,7 +222,17 @@ function getResults() {
 	new_array.sort(function (item1, item2) {
 		return item2[1] - item1[1];
 	});
+	var fast_array = [];
+	for (var coc = 0; coc < new_array.length; coc++){
+	 for (var cocs = 0; cocs < parties.length; cocs++){ 
+       if(parties[cocs]['name'] == new_array[coc][0]){
+        fast_array.push([new_array[coc][0], new_array[coc][1]]);
+	   }
+	 }
+	};
+	new_array = fast_array; 
 	partyPointersSort.sort();
+  console.log(partyPointers+'/vi');
 }
 
 function gewichtVraag() {
@@ -253,6 +278,7 @@ function gewichtVraag() {
 		input2.setAttribute('type', 'checkbox');
 		label2.innerHTML = textPartijen[p];
 		input2.id = p + 'partij';
+		input2.checked = true;
 		overzicht.appendChild(input2);
 		overzicht.appendChild(label2);
 		overzicht.appendChild(br2);
@@ -277,29 +303,23 @@ function gewichtVraag() {
 function Showresult() {
 	var overzicht = document.getElementById('overzicht');
   // Alle elementen worden verwijdert om ruimte te maken voor de resultaat
-	// for (var v = 0; v <= overzicht.children.length + 15; v++) {
-	// 	overzicht.removeChild(overzicht.lastChild);
-	// }
 	while (overzicht.firstChild) {
   overzicht.removeChild(overzicht.lastChild);
 }
+
   //// /// /
 
 	var element = document.createElement('h1');
 	element.innerText = 'Overzicht';
 	overzicht.appendChild(element);
-
+  console.log(new_array);
  // de resultaten worden opgehaald en laat ze aan de gebruiker zien in de vlgorde van de partij zijn stemmen
  // en welke het best bij de gebruiker past naar minder
 	for (var i = 0; i < new_array.length; i++) {
-		if (new_array[i][1] != 0) {
+    console.log(i);
 			var elemt = document.createElement('p');
+
 			if (new_array[i][0] != 'Niet Stemmers') {
-				// var allText = i + 1 + '. ' + subjects[0]['parties'][i]['position'];
-				// for (var bb = 0; bb < subjects.length; bb++) {
-				// 	allText =  allText + ',' + subjects[bb]['parties'][i]['position'];
-				// }
-				// allText = allText+ ': ' + new_array[i][0];
 				elemt.innerHTML = i+iCount+' '+new_array[i][0];
 			} else {
 				var iDoublecount = i+1
@@ -307,7 +327,6 @@ function Showresult() {
 				iCount++;
 			}
 			overzicht.appendChild(elemt);
-		}
 	}
 
   // als de gebruiker geen stmmen heeft ingevuld dan krijgt die dit als resultaat
@@ -320,7 +339,7 @@ function Showresult() {
 }
 
 function checkAdult(age) {
-	return age.size >= VOTE_DIVIDER;
+	return age.size >= 18;
 }
 
 function checkAdult2(age) {
