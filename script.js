@@ -85,9 +85,9 @@ console.log(oldPatern);
   // en ook dat de knop terug gaat naar zijn oude kleur
 
 	if (val == 'back') {
-		for (var ji = 0; ji < ids.length; ji++) {
-			document.getElementById(ids[ji]).style.backgroundColor = null;
-		}
+	//	for (var ji = 0; ji < ids.length; ji++) {
+			//document.getElementById(ids[ji]).style.backgroundColor = null;
+	//	}
 		if (stellingCount >= 0) {
 			stellingCount -= 2;
 			sum = '-';
@@ -121,12 +121,12 @@ console.log(oldPatern);
 
 	}
     // Berekent de blauwe lijn boven de pagina
-	calc = calc + ' ' + sum + ' ' + number + '%';
+    calc = calc + ' ' + sum + ' ' + number + '%';
 
     // Hier worden de stellingen aangemaakt in de pagina
-	if (stellingCount <= subjects.length - 1) {
-		stellingTitel.innerHTML = stellingCount + 1 + '. ' + subjects[stellingCount]['title'];
-		stelling.innerHTML = subjects[stellingCount]['statement'];
+    if (stellingCount <= subjects.length - 1) {
+        stellingTitel.innerHTML = stellingCount + 1 + '. ' + subjects[stellingCount]['title'];
+        stelling.innerHTML = subjects[stellingCount]['statement'];
 
 		bar.style.width = 'calc(' + calc + ')';
 		stellingCount++;
@@ -240,40 +240,40 @@ function gewichtVraag() {
   // hier krijgt de gebruiker de keuze of die grote, seculiere partijen wilt zien
   // en of een vraag extra gewicht moet krijgen
 
-	var textArr = ['Zijn er onderwerpen die u extra belangrijk vindt?', 'Aangevinkte stellingen tellen extra mee bij het berekenen van het resultaat.'];
-	var textPartijen = ['Laat grote partijen zien', 'Laat seculiere partijen zien'];
-	for (var i = 0; i < 2; i++) {
-		var type = 'p';
-		if (i == 0) {
-			type = 'h1';
-		}
-		var elemt = document.createElement(type);
-		elemt.innerHTML = textArr[i];
-		overzicht.appendChild(elemt);
-	}
-	var elemtp = document.createElement('p');
-	elemtp.innerHTML = 'Extra belangrijke onderwerpen';
-	overzicht.appendChild(elemtp);
+    var textArr = ['Zijn er onderwerpen die u extra belangrijk vindt?', 'Aangevinkte stellingen tellen extra mee bij het berekenen van het resultaat.'];
+    var textPartijen = ['Laat grote partijen zien', 'Laat seculiere partijen zien'];
+    for (var i = 0; i < 2; i++) {
+        var type = 'p';
+        if (i == 0) {
+            type = 'h1';
+        }
+        var elemt = document.createElement(type);
+        elemt.innerHTML = textArr[i];
+        overzicht.appendChild(elemt);
+    }
+    var elemtp = document.createElement('p');
+    elemtp.innerHTML = 'Extra belangrijke onderwerpen';
+    overzicht.appendChild(elemtp);
 
-	for (var s = 0; s < subjects.length; s++) {
-		var label = document.createElement('label');
-		var input = document.createElement('input');
-		var br = document.createElement('br');
+    for (var s = 0; s < subjects.length; s++) {
+        var label = document.createElement('label');
+        var input = document.createElement('input');
+        var br = document.createElement('br');
 
-		input.setAttribute('type', 'checkbox');
-		label.innerHTML = subjects[s]['title'];
-		input.id = s;
-		label.id = s + 'label';
+        input.setAttribute('type', 'checkbox');
+        label.innerHTML = subjects[s]['title'];
+        input.id = s;
+        label.id = s + 'label';
 
-		overzicht.appendChild(input);
-		overzicht.appendChild(label);
-		overzicht.appendChild(br);
+        overzicht.appendChild(input);
+        overzicht.appendChild(label);
+        overzicht.appendChild(br);
 
-	}
-	for (var p = 0; p < textPartijen.length; p++) {
-		var label2 = document.createElement('label');
-		var input2 = document.createElement('input');
-		var br2 = document.createElement('br');
+    }
+    for (var p = 0; p < textPartijen.length; p++) {
+        var label2 = document.createElement('label');
+        var input2 = document.createElement('input');
+        var br2 = document.createElement('br');
 
 		input2.setAttribute('type', 'checkbox');
 		label2.innerHTML = textPartijen[p];
@@ -284,24 +284,24 @@ function gewichtVraag() {
 		overzicht.appendChild(br2);
 	}
   // Hier wordt er een event geplaatst op de ga verder button die eerst de resultaten berekent en dan laat zien
-	var button = document.createElement('button');
-	button.className = 'btn btn-primary';
-	button.innerHTML = 'Ga verder';
-	button.onclick = function () {
-		for (var i = 0; i < subjects.length; i++) {
-			var check = document.getElementById(i);
-			if (check.checked) {
-				extragewicht[i] = 'x';
-			}
-		}
-		getResults();
-		Showresult();
-	}
-	overzicht.appendChild(button);
+    var button = document.createElement('button');
+    button.className = 'btn btn-primary';
+    button.innerHTML = 'Ga verder';
+    button.onclick = function () {
+        for (var i = 0; i < subjects.length; i++) {
+            var check = document.getElementById(i);
+            if (check.checked) {
+                extragewicht[i] = 'x';
+            }
+        }
+        getResults();
+        Showresult();
+    }
+    overzicht.appendChild(button);
 }
 
 function Showresult() {
-	var overzicht = document.getElementById('overzicht');
+    var overzicht = document.getElementById('overzicht');
   // Alle elementen worden verwijdert om ruimte te maken voor de resultaat
 	while (overzicht.firstChild) {
   overzicht.removeChild(overzicht.lastChild);
@@ -330,12 +330,12 @@ function Showresult() {
 	}
 
   // als de gebruiker geen stmmen heeft ingevuld dan krijgt die dit als resultaat
-	if (slaVraagOver == subjects.length) {
-		var slaVraagOverText = document.createElement('p');
-		slaVraagOverText.innerHTML = 'U heeft geen Stem gegeven';
-		overzicht.appendChild(slaVraagOverText);
+    if (slaVraagOver == subjects.length) {
+        var slaVraagOverText = document.createElement('p');
+        slaVraagOverText.innerHTML = 'U heeft geen Stem gegeven';
+        overzicht.appendChild(slaVraagOverText);
 
-	}
+    }
 }
 
 function checkAdult(age) {
@@ -343,5 +343,5 @@ function checkAdult(age) {
 }
 
 function checkAdult2(age) {
-	return age.secular == true;
+    return age.secular == true;
 }
